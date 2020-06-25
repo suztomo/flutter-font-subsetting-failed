@@ -2,8 +2,6 @@ import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'tag_chip.dart';
-
 class TagSelectionDialog extends StatefulWidget {
   const TagSelectionDialog(this.scaffoldContext);
   final BuildContext scaffoldContext;
@@ -31,35 +29,6 @@ class _TagSelectionState extends State<TagSelectionDialog> {
   void dispose() {
     _textEditingController.dispose();
     super.dispose();
-  }
-
-  Future<void> onCreatePressed() async {
-    if (!_formKey.currentState.validate()) {
-      return;
-    }
-
-    final scaffold = Scaffold.of(widget.scaffoldContext)
-      ..showSnackBar(SnackBar(content: Text('Saving the tag')));
-
-    final tagName = _textEditingController.text;
-
-    _textEditingController.clear();
-    setState(() {
-      addingNewTag = false;
-    });
-
-  }
-
-  String validateNewTagName(String newTagName) {
-    final tagNames = [].map((t) => t.name).toSet();
-    if (newTagName.length <= 1) {
-      return 'Tag name too short';
-    }
-    if (tagNames.contains(newTagName)) {
-      // If _tag is null, it's a new tag
-      return 'Duplicate tag name';
-    }
-    return null;
   }
 
   @override
@@ -107,7 +76,6 @@ class _TagSelectionState extends State<TagSelectionDialog> {
                                 Expanded(
                                   child: TextFormField(
                                     controller: _textEditingController,
-                                    validator: validateNewTagName,
                                     decoration: InputDecoration(
                                       icon: const Icon(
                                           CommunityMaterialIcons.pound_box),
@@ -115,30 +83,13 @@ class _TagSelectionState extends State<TagSelectionDialog> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 60,
-                                  child: RaisedButton(
-                                    visualDensity: VisualDensity.compact,
-                                    child: Text('Create'),
-                                    onPressed: onCreatePressed,
-                                  ),
-                                )
                               ]),
                             ),
                           )
                         : Container(),
-                    Wrap(
-                      children: []
-                    ),
                   ],
                 )),
       ),
-      actions: [
-        MaterialButton(
-            elevation: 5,
-            child: Text('Close'),
-            onPressed: () => Navigator.of(context).pop())
-      ],
     );
   }
 }
