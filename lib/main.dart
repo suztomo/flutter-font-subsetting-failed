@@ -8,14 +8,17 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: MaterialApp(
-          home: TextFormField(
-        decoration: InputDecoration(
-          icon: const Icon(CommunityMaterialIcons.pound_box),
-          labelText: 'hello',
-        ),
-      )),
-    );
+    return MaterialApp(
+        home: TextFormField(
+      decoration: InputDecoration(
+        // This fails: Target release_ios_bundle_flutter_assets failed:
+        // FontSubset error: Font subsetting failed with exit code 255.
+        icon: const Icon(CommunityMaterialIcons.pound_box),
+
+        // This works
+        // icon: const Icon(Icons.add),
+        labelText: 'hello',
+      ),
+    ));
   }
 }
