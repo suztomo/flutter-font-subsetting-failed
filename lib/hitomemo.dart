@@ -15,6 +15,7 @@ import 'hitomemo_timeline_list.dart';
 import 'note.dart';
 import 'person.dart';
 import 'person_model.dart';
+import 'screen_add_note.dart';
 import 'screen_add_person.dart';
 import 'screen_multiple_persons_dialog.dart';
 import 'widgets/bottom_up_animation.dart';
@@ -182,6 +183,12 @@ class _HitomemoHomePageState extends State<HitomemoHomePage> {
         child: const Icon(Icons.note_add),
         backgroundColor: theme.accentColor,
         onPressed: () async {
+          final addedNote = await Navigator.of(context).push(
+              createBottomUpAnimationRoute<Note>(
+                  (context, animation, secondaryAnimation) => AddNoteRoute()));
+          if (addedNote != null) {
+            _scrollToTop(_noteListScrollController);
+          }
         },
       );
     }
