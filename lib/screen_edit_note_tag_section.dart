@@ -33,28 +33,6 @@ class _TagSelectionState extends State<TagSelectionDialog> {
     super.dispose();
   }
 
-  List<Widget> tagChoiceChipList(ValueNotifier<Set<String>> tagNotifier) {
-    final tags = tagNotifier.value;
-    return [].map((tag) {
-      return Container(
-        padding: const EdgeInsets.all(2),
-        child: NoteTagChip(
-          selectable: true,
-          selected: tags.contains(tag.id),
-          onSelected: (selected) async {
-            final updatedTags = {...tags}; // copy
-            if (selected) {
-              updatedTags.add(tag.id);
-            } else {
-              updatedTags.remove(tag.id);
-            }
-            tagNotifier.value = updatedTags;
-          },
-        ),
-      );
-    }).toList();
-  }
-
   Future<void> onCreatePressed() async {
     if (!_formKey.currentState.validate()) {
       return;
@@ -150,7 +128,7 @@ class _TagSelectionState extends State<TagSelectionDialog> {
                           )
                         : Container(),
                     Wrap(
-                      children: tagChoiceChipList(notifier),
+                      children: []
                     ),
                   ],
                 )),
