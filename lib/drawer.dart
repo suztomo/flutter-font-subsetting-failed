@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import 'drawer.i18n.dart';
 import 'person.dart';
 import 'person_model.dart';
-import 'screen_show_person.dart';
 import 'widgets/person_circle_avatar.dart';
 import 'widgets/tutorial.dart';
 
@@ -96,14 +95,6 @@ class MenuDrawer extends StatelessWidget {
           children: <Widget>[
             GestureDetector(
               child: drawerHeader,
-              onTap: () {
-                Navigator.push<dynamic>(
-                    context,
-                    MaterialPageRoute<dynamic>(
-                        settings: const RouteSettings(
-                            name: ShowPersonRoute.routeName),
-                        builder: (context) => ShowPersonRoute(user)));
-              },
             ),
             ListTile(
               leading: const Icon(Icons.home),
