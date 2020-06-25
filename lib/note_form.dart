@@ -7,6 +7,7 @@ import 'note.dart';
 import 'note_form.i18n.dart';
 import 'person.dart';
 import 'screen_edit_note_image_section.dart';
+import 'screen_edit_note_tag_section.dart';
 
 class NoteForm extends StatefulWidget {
   const NoteForm(this._person);
@@ -131,10 +132,6 @@ class NoteFormState extends State<NoteForm> {
         var note =
             noteNotifier.value.copyWith(content: textVal, date: _noteDate);
 
-        scaffold
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text('Note saved'.i18n)));
-
         _memoController.clear();
         setState(() {
           _enableEdit = true;
@@ -158,17 +155,7 @@ class NoteFormState extends State<NoteForm> {
         // Hide images and tags
         noteNotifier.value = Note(date: _noteDate, content: '');
       } on Exception catch (err) {
-        scaffold.showSnackBar(
-          SnackBar(
-              duration: const Duration(seconds: 10),
-              content: Text('Error: $err'),
-              action: SnackBarAction(
-                label: 'Logout'.i18n,
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                },
-              )),
-        );
+        print('Could not save note: $err');
       }
     }
   }
@@ -223,6 +210,7 @@ class NoteFormState extends State<NoteForm> {
                             children: [
                               Column(children: [
                                 const SizedBox(height: 8),
+                                EditNoteTagSection(widget._person),
                                 EditNoteImageSection(widget._person),
                               ]),
                             ],
