@@ -44,9 +44,11 @@ class HitomemoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: MaterialApp(
-          supportedLocales: const [
-            Locale('en'), // English
-            Locale('ja'), // Japanese
+          localizationsDelegates: [
+            // ... app-specific localization delegate[s] here
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
           ],
 
           // This does not seem helping. Instead, this app uses InfoPList.
