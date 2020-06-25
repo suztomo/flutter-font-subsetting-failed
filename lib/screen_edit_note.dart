@@ -4,6 +4,7 @@ import 'package:hitomemo/tag.dart';
 import 'package:provider/provider.dart';
 
 import 'date_raised_button.dart';
+import 'edit_back_button.dart';
 import 'note.dart';
 import 'person.dart';
 import 'person_model.dart';
@@ -179,6 +180,14 @@ class EditNoteState extends State<EditNoteForm> {
 
   bool _hasChange() => _noteNotifier.value != _originalNote;
 
+  /// Returns true if there's no change
+  Future<bool> _onWillPop() async {
+    if (!_hasChange()) {
+      return true;
+    }
+    return showGoBackDialog(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     Future<void> _deleteTapped() async {
@@ -245,6 +254,7 @@ class EditNoteState extends State<EditNoteForm> {
 
     return Form(
         key: _formKey,
+        onWillPop: _onWillPop,
         child: SingleChildScrollView(
           child: Container(
             margin: const EdgeInsets.all(8),

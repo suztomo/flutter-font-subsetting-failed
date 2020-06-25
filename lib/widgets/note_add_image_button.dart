@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 import '../login_user_model.dart';
 import '../note.dart';
 import '../person.dart';
+import '../screen_edit_note.i18n.dart';
+import 'photo_access_dialog.dart';
 
 class NoteAddImageButton extends StatefulWidget {
   const NoteAddImageButton(this.person, {this.onPhotoUploaded});
@@ -64,6 +66,10 @@ class _ButtonState extends State<NoteAddImageButton> {
     final taskSnapshot = await uploadTask.onComplete;
     await streamSubscription.cancel();
     if (taskSnapshot.error != null) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Picture failed: Error: %s'
+              .i18n
+              .fill(['${taskSnapshot.error}']))));
       return null;
     } else {
       final bucketName = await storageReference.getBucket();
@@ -109,6 +115,12 @@ class _ButtonState extends State<NoteAddImageButton> {
 
       var count = 1;
       for (final asset in picturesToUpload) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(
+              content: Text('Saving picture (%d / %d)'
+                  .i18n
+                  .fill([count, picturesToUpload.length]))));
         count++;
         final byteData = await asset.getByteData();
         final uInt8List = byteData.buffer.asUint8List();
@@ -140,6 +152,11 @@ class _ButtonState extends State<NoteAddImageButton> {
         gcsUrlToAsset[gcsPath] = asset;
       }
 
+      if (picturesToUpload.isNotEmpty) {
+        Scaffold.of(context)
+          ..hideCurrentSnackBar()
+          ..showSnackBar(SnackBar(content: Text('Picture uploaded'.i18n)));
+      }
     } on NoImagesSelectedException catch (_) {
       return;
     } catch (err) {
