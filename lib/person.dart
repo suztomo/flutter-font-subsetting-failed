@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:hitomemo/many_to_many.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
-import 'many_to_many.dart';
 
 part 'person.freezed.dart';
 
 @freezed
-abstract class Person with _$Person implements ID {
+abstract class Person with _$Person {
   factory Person({
     String id,
     String name,

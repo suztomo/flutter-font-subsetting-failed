@@ -5,14 +5,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:image/image.dart' as _image;
-import 'package:path_provider/path_provider.dart';
-import 'package:path/path.dart' as path;
-import 'package:provider/provider.dart';
 
-import '../login_user_model.dart';
 import '../person.dart';
 import 'cached_image.dart';
 import 'person_editable_avatar.i18n.dart';
@@ -46,124 +40,6 @@ class _PersonEditableAvatarState extends State<PersonEditableAvatar> {
     } on Exception catch (_) {
       // User did not give permission
       return null;
-    }
-  }
-
-  /// Returns path of Google Cloud Storage image
-  Future<String> _uploadImage(BuildContext context, File file) async {
-    final loginUserModel = Provider.of<LoginUserModel>(context, listen: false);
-    final person = widget.notifier.value;
-    final personId = person.id;
-    final filename = personId != null ? personId : 'unsaved';
-    final personPath = '${loginUserModel.user.uid}/$filename';
-    // final extension = file.path.split('.').last;
-    final secondsSinceEpoch = DateTime.now().millisecondsSinceEpoch / 1000;
-//    final path = '$personPath.jpg';
-    final path = '$personPath/$secondsSinceEpoch.jpg';
-    final firebaseStorage = FirebaseStorage();
-    final storageReference = firebaseStorage.ref().child(path);
-    final uploadTask = storageReference.putFile(file);
-    Scaffold.of(context)
-        .showSnackBar(SnackBar(content: Text('Uploading picture'.i18n)));
-
-    setState(() {
-      uploadingPhoto = true;
-    });
-    final streamSubscription = uploadTask.events.listen((event) {
-      // https://pub.dev/packages/firebase_storage
-      print('EVENT ${event.type}');
-    });
-
-    final taskSnapshot = await uploadTask.onComplete;
-    await streamSubscription.cancel();
-    setState(() {
-      uploadingPhoto = false;
-    });
-    if (taskSnapshot.error != null) {
-      Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text('Picture failed: Error: %s'
-              .i18n
-              .fill(['${taskSnapshot.error}']))));
-      return null;
-    } else {
-      Scaffold.of(context)
-          .showSnackBar(SnackBar(content: Text('Picture uploaded'.i18n)));
-      final bucketName = await storageReference.getBucket();
-      return 'gs://$bucketName/${storageReference.path}';
-    }
-  }
-
-  Future<void> _onPhotoIconPressed(BuildContext context) async {
-    final theme = Theme.of(context);
-    final imageFile = await _pickImage(context);
-    if (imageFile == null) {
-      return;
-    }
-
-    final croppedFile = await ImageCropper.cropImage(
-        sourcePath: imageFile.path,
-        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
-        aspectRatioPresets: [
-          CropAspectRatioPreset.square,
-        ],
-        androidUiSettings: AndroidUiSettings(
-            toolbarTitle: 'Cropper'.i18n,
-            toolbarColor: theme.primaryColor,
-            toolbarWidgetColor: theme.primaryColor,
-            initAspectRatio: CropAspectRatioPreset.original,
-            lockAspectRatio: false),
-        iosUiSettings: const IOSUiSettings(
-          minimumAspectRatio: 1,
-          hidesNavigationBar: false,
-          rotateButtonsHidden: true,
-          rotateClockwiseButtonHidden: true,
-        ));
-    if (croppedFile == null) {
-      return;
-    }
-
-    final decodedImage = _image.decodeImage(croppedFile.readAsBytesSync());
-    // Resize the image to a 120x? thumbnail (maintaining the aspect ratio).
-    // Use 8x8 grid
-    // https://developer.apple.com/design/human-interface-guidelines/ios/icons-and-images/image-size-and-resolution/
-    final resizedImage = _image.copyResize(decodedImage, width: 512);
-    final jpegData = _image.encodeJpg(resizedImage);
-    final tempDir = await getTemporaryDirectory();
-    final tempPath = tempDir.path;
-    final bn = path.basename(imageFile.path);
-    final file = File('$tempPath/resized_$bn')..writeAsBytesSync(jpegData);
-
-    // https://firebasestorage.googleapis.com/v0/b/suztomo-hitomemo.appspot.com/o/t1gVCkBrgMU9LjFRnrtu1FFjlir1%2FYagiCfrKMGTwcxq3l21V.jpg?alt=media&token=3b17cf0d-e6ba-4543-890a-2f5a4e363547
-    final gcsPath = await _uploadImage(context, file);
-    await file.delete();
-
-    final person = widget.notifier.value;
-    widget.notifier.value = person.copyWith(pictureGcsPath: gcsPath);
-  }
-
-  Future<void> _iconSelection(BuildContext context) async {
-    final pictureGcsUrl = await showModalBottomSheet<String>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const AvatarIconSelection(),
-    );
-    if (pictureGcsUrl != null) {
-      final person = widget.notifier.value;
-      widget.notifier.value = person.copyWith(pictureGcsPath: pictureGcsUrl);
-    }
-  }
-
-  Future<void> onPersonFaceIconPressed(BuildContext context) async {
-    final source = await showModalBottomSheet<AvatarSource>(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => const AvatarSourceSelection(),
-    );
-
-    if (source == AvatarSource.photoLibrary) {
-      return _onPhotoIconPressed(context);
-    } else if (source == AvatarSource.icon) {
-      return _iconSelection(context);
     }
   }
 
@@ -210,7 +86,6 @@ class _PersonEditableAvatarState extends State<PersonEditableAvatar> {
           ),
         ],
       ),
-      onTap: () => onPersonFaceIconPressed(context),
     );
   }
 }

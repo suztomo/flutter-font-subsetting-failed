@@ -1,17 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:hitomemo/login_user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
 import 'note.dart';
 import 'note_form.i18n.dart';
-import 'note_tags_model.dart';
 import 'person.dart';
-import 'person_model.dart';
 import 'screen_edit_note_image_section.dart';
-import 'screen_edit_note_tag_section.dart';
-import 'tag.dart';
 
 class NoteForm extends StatefulWidget {
   const NoteForm(this._person);
@@ -131,27 +126,11 @@ class NoteFormState extends State<NoteForm> {
         ..showSnackBar(SnackBar(content: Text('Saving note'.i18n)));
       final textVal = _memoController.text;
 
-      final personsModel = Provider.of<PersonsModel>(context, listen: false);
-      final noteTagRepository =
-          Provider.of<NoteTagRepository>(context, listen: false);
       try {
         // Note.Id is null. It's assigned by Firestore's value
         var note =
             noteNotifier.value.copyWith(content: textVal, date: _noteDate);
 
-        final tagsInContent = NoteTagRepository.extractTagNames(textVal);
-        final tagsByName = noteTagRepository.tagsByName;
-        for (final tagName in tagsInContent) {
-          var t = tagsByName[tagName];
-          if (t == null) {
-            t = NTag.create(tagName);
-            await noteTagRepository.save(t);
-          }
-          note = note.copyWith(tagIds: {...note.tagIds, t.id});
-        }
-
-        // Got noteID
-        note = await personsModel.addNoteToPerson(_person, note);
         scaffold
           ..hideCurrentSnackBar()
           ..showSnackBar(SnackBar(content: Text('Note saved'.i18n)));
@@ -179,10 +158,6 @@ class NoteFormState extends State<NoteForm> {
         // Hide images and tags
         noteNotifier.value = Note(date: _noteDate, content: '');
       } on Exception catch (err) {
-        print('Could not save note: $err');
-        final loginUserModel =
-            Provider.of<LoginUserModel>(context, listen: false);
-
         scaffold.showSnackBar(
           SnackBar(
               duration: const Duration(seconds: 10),
@@ -190,7 +165,6 @@ class NoteFormState extends State<NoteForm> {
               action: SnackBarAction(
                 label: 'Logout'.i18n,
                 onPressed: () async {
-                  await loginUserModel.logout();
                   Navigator.of(context).pop();
                 },
               )),
@@ -249,7 +223,6 @@ class NoteFormState extends State<NoteForm> {
                             children: [
                               Column(children: [
                                 const SizedBox(height: 8),
-                                EditNoteTagSection(widget._person),
                                 EditNoteImageSection(widget._person),
                               ]),
                             ],

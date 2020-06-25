@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import 'hitomemo.i18n.dart';
-import 'name.dart';
 import 'note_form.dart';
 
 void main() {
@@ -15,7 +13,6 @@ class HitomemoApp extends StatelessWidget {
     return
       GestureDetector(
         child: MaterialApp(
-            onGenerateTitle: (context) => appNameEn.i18n,
             home: I18n(child: HitomemoInitialPage())),
       );
   }

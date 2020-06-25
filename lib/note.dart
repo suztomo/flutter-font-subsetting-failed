@@ -4,8 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 
-import 'many_to_many.dart';
-
 part 'note.freezed.dart';
 
 /// PersonsModel is responsible to manage Firestore queries.
@@ -15,7 +13,7 @@ part 'note.freezed.dart';
 /// this with NoteEntry.deleted and NoteEntry.active, however, doing so makes
 /// it difficult for other devices to synchronize their internal SQLite.
 @freezed
-abstract class Note with _$Note implements ID, OnDate {
+abstract class Note with _$Note {
   // Note ID is unique within a user (not within a person).
   factory Note(
       {String id,
