@@ -34,12 +34,8 @@ class HitomemoInitialPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<LoginUserModel>(builder: (context, loginUserModel, child) {
       switch (loginUserModel.status) {
-//        case LoginStatus.loggedIn:
-  //        return HitomemoHomePage();
-        case LoginStatus.unknown:
-          return LoadingPage();
-        case LoginStatus.notLoggedIn:
-          return HitomemoSlideOnboarding();
+        case LoginStatus.loggedIn:
+          return HitomemoHomePage();
         default:
           throw Exception('Unexpected login status ${loginUserModel.status}');
       }
