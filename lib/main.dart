@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
     return
       GestureDetector(
         child: MaterialApp(
-            home: I18n(child: TagSelectionDialog(null))),
+            home: I18n(child: TagSelectionDialog())),
       );
   }
 }
