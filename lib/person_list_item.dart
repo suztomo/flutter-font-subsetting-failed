@@ -4,7 +4,6 @@ import 'package:hitomemo/person.dart';
 import 'package:hitomemo/tag_chip.dart';
 import 'package:hitomemo/person_tags_model.dart';
 import 'package:provider/provider.dart';
-import 'screen_show_person.dart';
 import 'widgets/person_circle_avatar.dart';
 
 class PersonListItem extends StatelessWidget {
@@ -50,13 +49,6 @@ class PersonListItem extends StatelessWidget {
           ),
         ),
         onTap: () async {
-          // delete?
-          await Navigator.push<dynamic>(
-            context,
-            MaterialPageRoute<dynamic>(
-                settings: const RouteSettings(name: ShowPersonRoute.routeName),
-                builder: (context) => ShowPersonRoute(_person)),
-          );
 
           FocusManager.instance.primaryFocus.unfocus();
         },
