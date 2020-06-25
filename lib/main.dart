@@ -13,7 +13,7 @@ class HitomemoApp extends StatelessWidget {
     return
       GestureDetector(
         child: MaterialApp(
-            home: I18n(child: EditNoteTagSection(null))),
+            home: I18n(child: EditNoteTagSection())),
       );
   }
 }

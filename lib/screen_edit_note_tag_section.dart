@@ -3,14 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'note.dart';
-import 'person.dart';
 import 'tag_chip.dart';
 
 class EditNoteTagSection extends StatefulWidget {
-  const EditNoteTagSection(this.person);
-
-  final Person person;
-
   @override
   State<StatefulWidget> createState() {
     return _EditNoteTagSectionState();
@@ -74,19 +69,7 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
     final selectedPersonTagIds = note.tagPersonIds;
     final tagChips = []
         .map((person) {
-      return Container(
-        child: PersonTagChip(
-          person,
-          onDeleted: () {
-            final updatedTagPersonIds = {...selectedPersonTagIds}
-              ..remove(person.id);
-            setState(() {
-              _noteNotifier.value =
-                  note.copyWith(tagPersonIds: updatedTagPersonIds);
-            });
-          },
-        ),
-      );
+      return Container();
     }).toList();
 
     if (tagChips.isEmpty) {
