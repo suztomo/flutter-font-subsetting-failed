@@ -7,7 +7,6 @@ import 'login_user_model.dart';
 import 'person.dart';
 import 'person_model.dart';
 import 'screen_add_person.i18n.dart';
-import 'screen_show_person.dart';
 import 'widgets/person_editable_avatar.dart';
 
 class AddPersonRoute extends StatelessWidget {
@@ -98,14 +97,6 @@ class PersonFormState extends State<PersonForm> {
             Duration(milliseconds: additionalWaitMillis));
         scaffold.hideCurrentSnackBar();
 
-        await Navigator.of(context).pushReplacement<dynamic, Person>(
-          MaterialPageRoute<dynamic>(
-              settings: const RouteSettings(name: ShowPersonRoute.routeName),
-              builder: (context) => ShowPersonRoute(person)),
-          result: person, // Tell the person list to scroll to top
-        );
-
-        // Navigator.of(context).pop(person);
       } on Exception catch (err) {
         setState(() {
           _submitEnabled = true;

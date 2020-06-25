@@ -9,7 +9,6 @@ import '../note_list_item_photo_section.dart';
 import '../note_tags_model.dart';
 import '../person.dart';
 import '../person_tag_section.dart';
-import '../screen_show_person.dart';
 import '../tag_chip.dart';
 import 'person_circle_avatar.dart';
 
@@ -84,8 +83,6 @@ class NoteReplicaTile extends StatelessWidget {
                   ],
                 ),
               ),
-              onTap: () =>
-                  ShowPersonRoute.navigateToPersonPage(person, context),
             ),
             Expanded(
               child: Column(
