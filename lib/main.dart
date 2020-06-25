@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 
-import 'note_form.dart';
+import 'screen_edit_note_tag_section.dart';
 
 void main() {
   runApp(HitomemoApp());
@@ -23,6 +23,6 @@ class HitomemoInitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return NoteForm(null);
+    return EditNoteTagSection(null);
   }
 }

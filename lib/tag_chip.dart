@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 
 import 'person.dart';
 import 'tag.dart';
-import 'widgets/person_circle_avatar.dart';
-
 /// ChoiceChip for tags
 class GroupChip extends StatelessWidget {
   const GroupChip(this._tag, {this.selected = true, this.onSelected});
@@ -49,15 +47,12 @@ class PersonTagChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    final leadingIcon = PersonCircleAvatar(_person, radius: 20);
-
     if (onDeleted != null) {
       final chipTheme = ChipTheme.of(context);
 
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: InputChip(
-          avatar: leadingIcon,
           padding: const EdgeInsets.all(0),
           label: Text(
             title ?? _person.name,
@@ -74,7 +69,6 @@ class PersonTagChip extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 2),
         child: ChoiceChip(
-          avatar: leadingIcon,
           padding: const EdgeInsets.all(0),
           label: Text(
             title ?? _person.name,

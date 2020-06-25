@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'note.dart';
 import 'person.dart';
-import 'screen_edit_note.i18n.dart';
 import 'tag.dart';
 import 'tag_chip.dart';
 
@@ -57,7 +56,7 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
   Container noPersonChip() => Container(
           child: ChoiceChip(
         avatar: _addPersonIcon,
-        label: Text('Tag person'.i18n),
+        label: Text('Tag person'),
         onSelected: (selected) {
           _personTagAddTapped();
         },
@@ -219,10 +218,9 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
     }
 
     final scaffold = Scaffold.of(widget.scaffoldContext)
-      ..showSnackBar(SnackBar(content: Text('Saving the tag'.i18n)));
+      ..showSnackBar(SnackBar(content: Text('Saving the tag')));
 
     final tagName = _textEditingController.text;
-    final tag = NTag.create(tagName);
 
     _textEditingController.clear();
     setState(() {
@@ -234,11 +232,11 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
   String validateNewTagName(String newTagName) {
     final tagNames = [].map((t) => t.name).toSet();
     if (newTagName.length <= 1) {
-      return 'Tag name too short'.i18n;
+      return 'Tag name too short';
     }
     if (tagNames.contains(newTagName)) {
       // If _tag is null, it's a new tag
-      return 'Duplicate tag name'.i18n;
+      return 'Duplicate tag name';
     }
     return null;
   }
@@ -251,7 +249,7 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
       title: Stack(
         children: [
           Text(
-            'Select Tags'.i18n,
+            'Select Tags',
             style: const TextStyle(fontSize: 22),
           ),
           Positioned(
@@ -292,7 +290,7 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
                                     decoration: InputDecoration(
                                       icon: const Icon(
                                           CommunityMaterialIcons.pound_box),
-                                      labelText: 'New Tag'.i18n,
+                                      labelText: 'New Tag',
                                     ),
                                   ),
                                 ),
@@ -300,7 +298,7 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
                                   width: 60,
                                   child: RaisedButton(
                                     visualDensity: VisualDensity.compact,
-                                    child: Text('Create'.i18n),
+                                    child: Text('Create'),
                                     onPressed: onCreatePressed,
                                   ),
                                 )
@@ -317,7 +315,7 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
       actions: [
         MaterialButton(
             elevation: 5,
-            child: Text('Close'.i18n),
+            child: Text('Close'),
             onPressed: () => Navigator.of(context).pop())
       ],
     );
