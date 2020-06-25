@@ -10,8 +10,6 @@ import 'note_form.i18n.dart';
 import 'note_tags_model.dart';
 import 'person.dart';
 import 'person_model.dart';
-import 'screen_edit_note_image_section.dart';
-import 'screen_edit_note_tag_section.dart';
 import 'tag.dart';
 import 'widgets/tutorial.dart';
 
@@ -272,8 +270,6 @@ class NoteFormState extends State<NoteForm> {
                             children: [
                               Column(children: [
                                 const SizedBox(height: 8),
-                                EditNoteTagSection(widget._person),
-                                EditNoteImageSection(widget._person),
                               ]),
                             ],
                           )),

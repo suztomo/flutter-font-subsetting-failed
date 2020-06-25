@@ -14,7 +14,6 @@ import 'package:provider/provider.dart';
 import 'note_list_item.i18n.dart';
 import 'note_list_item_photo_section.dart';
 import 'person_tag_section.dart';
-import 'screen_edit_note.dart';
 
 class NoteListItem extends StatelessWidget {
   NoteListItem(this._person, Note note)
@@ -123,33 +122,6 @@ class NoteListItem extends StatelessWidget {
       // DevTool WidgetInspector told that this is not transparent
       closedColor: Colors.transparent, // What?? Not default??
       transitionType: ContainerTransitionType.fade,
-      openBuilder: (_context, VoidCallback closeContainer) {
-        void closeCallback(Note note) {
-          closeContainer();
-
-          Timer(const Duration(milliseconds: 500), () {
-            if (note != null) {
-              final updatedNotes = notesNotifier.value
-                  .map((n) => (n.id == note.id) ? note : n)
-                  .toList();
-
-              // It seems the note list is not getting updated for this value.
-              notesNotifier.value = updatedNotes;
-            } else {
-              // Note is deleted
-              final notes = [...notesNotifier.value]
-                ..retainWhere((n) => n.id != _originalNote.id);
-              notesNotifier.value = notes;
-
-              Scaffold.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(content: Text('Deleted'.i18n)));
-            }
-          });
-        }
-
-        return EditNoteRoute(_person, _noteNotifier, closeCallback);
-      },
       tappable: false,
       closedShape: const RoundedRectangleBorder(),
       closedElevation: 0,

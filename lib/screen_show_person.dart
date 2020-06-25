@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_sticky_header/flutter_sticky_header.dart';
 import 'package:hitomemo/widgets/note_replica_tile.dart';
-import 'package:hitomemo/screen_edit_person.dart';
 import 'package:hitomemo/person_tags_model.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:intl/intl.dart';
@@ -104,20 +103,7 @@ class _ShowPersonRouteState extends State<ShowPersonRoute> {
             radius: 70,
             backgroundImage: CachedImage(person.pictureGcsPath),
           ),
-          onDoubleTap: navigateToEditPerson,
         )));
-  }
-
-  Future<void> navigateToEditPerson() async {
-    final result = await Navigator.push<EditPersonResult>(
-      context,
-      MaterialPageRoute(builder: (context) => EditPersonRoute(person)),
-    );
-    result?.when(
-        deleted: (person) => Navigator.of(context).pop(),
-        updated: (p) => setState(() {
-              person = p;
-            }));
   }
 
   @override
@@ -129,7 +115,6 @@ class _ShowPersonRouteState extends State<ShowPersonRoute> {
     // https://pub.dev/packages/provider
     Widget settingsButton() => IconButton(
           icon: const Icon(Icons.account_circle),
-          onPressed: navigateToEditPerson,
         );
 
     final theme = Theme.of(context);
