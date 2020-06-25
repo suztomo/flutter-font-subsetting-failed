@@ -4,6 +4,7 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'hitomemo.dart';
 import 'hitomemo.i18n.dart';
 import 'name.dart';
+import 'note_form.dart';
 import 'screen_show_person.dart';
 
 void main() {
@@ -27,6 +28,6 @@ class HitomemoInitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ShowPersonRoute(null);
+    return NoteForm(null);
   }
 }
