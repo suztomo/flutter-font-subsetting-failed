@@ -2,37 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'person.dart';
-import 'tag.dart';
-/// ChoiceChip for tags
-class GroupChip extends StatelessWidget {
-  const GroupChip(this._tag, {this.selected = true, this.onSelected});
-
-  final PTag _tag;
-
-  final bool selected;
-
-  final ValueChanged<bool> onSelected;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final onSelected = this.onSelected;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 2),
-      child: ChoiceChip(
-        padding: const EdgeInsets.all(0),
-        label: Text(
-          _tag.name,
-          style: theme.textTheme.bodyText1,
-        ),
-        labelStyle: theme.textTheme.bodyText1,
-        selected: selected,
-        onSelected: onSelected,
-      ),
-    );
-  }
-}
 
 class PersonTagChip extends StatelessWidget {
   const PersonTagChip(this._person,
@@ -83,13 +52,10 @@ class PersonTagChip extends StatelessWidget {
 }
 
 class NoteTagChip extends StatefulWidget {
-  const NoteTagChip(this._tag,
-      {this.selected = true,
+  const NoteTagChip({this.selected = true,
       this.onSelected,
       this.selectable = false,
       this.small = false});
-
-  final NTag _tag;
 
   final bool selected;
 
@@ -136,7 +102,7 @@ class _NoteTagChipState extends State<NoteTagChip> {
           // Removes unwanted margin around the button
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           child: Text(
-            '#${widget._tag.name}',
+            'foo',
             // Setting height aligns the heights of the chip size
             style: textTheme.copyWith(height: widget.small ? 1.2 : 1.5),
           ),

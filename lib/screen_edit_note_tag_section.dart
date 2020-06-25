@@ -58,7 +58,6 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
         .map((tag) {
       return Container(
           child: NoteTagChip(
-        tag,
         onSelected: (selected) {
           _tagEditTapped();
         },
@@ -176,7 +175,6 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
       return Container(
         padding: const EdgeInsets.all(2),
         child: NoteTagChip(
-          tag,
           selectable: true,
           selected: tags.contains(tag.id),
           onSelected: (selected) async {
