@@ -31,19 +31,9 @@ import 'screen_license.dart';
 import 'screen_note_tags.dart';
 import 'widgets/tutorial.dart';
 
-bool devicePreviewEnabled = false;
-
 void main() {
   runApp(HitomemoApp());
 }
-
-final FirebaseAnalytics analytics = FirebaseAnalytics();
-final FirebaseAnalyticsObserver observer =
-    FirebaseAnalyticsObserver(analytics: analytics);
-
-final FirebaseAuth auth = FirebaseAuth.instance;
-
-final Connectivity connectivity = Connectivity();
 
 // Google developer account tomotomotomo888@gmail.com
 // Firebase project Hitomemo https://console.firebase.google.com/u/0/project/suztomo-hitomemo/overview
@@ -52,13 +42,9 @@ final Connectivity connectivity = Connectivity();
 class HitomemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // I want DevicePreview.of to return null if not enabled
-    final locale =
-        devicePreviewEnabled ? DevicePreview.of(context).locale : null;
     return
       GestureDetector(
         child: MaterialApp(
-            debugShowCheckedModeBanner: !devicePreviewEnabled,
             localizationsDelegates: [
               // ... app-specific localization delegate[s] here
               GlobalMaterialLocalizations.delegate,
@@ -69,16 +55,12 @@ class HitomemoApp extends StatelessWidget {
               Locale('en'), // English
               Locale('ja'), // Japanese
             ],
-
-            // https://pub.dev/packages/device_preview
-            locale: locale,
             builder: DevicePreview.appBuilder,
 
             // This does not seem helping. Instead, this app uses InfoPList.
             // strings file to internationalize app name on home screen.
             // https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html
             onGenerateTitle: (context) => appNameEn.i18n,
-            navigatorObservers: <NavigatorObserver>[observer],
             theme: ThemeData.light(),
             home: I18n(child: HitomemoInitialPage()),
             routes: {}),
