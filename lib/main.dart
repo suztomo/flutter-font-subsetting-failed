@@ -4,10 +4,10 @@ import 'package:i18n_extension/i18n_widget.dart';
 import 'screen_edit_note_tag_section.dart';
 
 void main() {
-  runApp(HitomemoApp());
+  runApp(MyApp());
 }
 
-class HitomemoApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return
