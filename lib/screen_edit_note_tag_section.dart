@@ -9,7 +9,6 @@ import 'person_model.dart';
 import 'screen_edit_note.i18n.dart';
 import 'tag.dart';
 import 'tag_chip.dart';
-import 'widgets/person_select_dialog.dart';
 
 class EditNoteTagSection extends StatefulWidget {
   const EditNoteTagSection(this.person);
@@ -55,19 +54,6 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
 
   Future<void> _personTagAddTapped() async {
     final note = _noteNotifier.value;
-    final tagPersonIds = note.tagPersonIds;
-    final selectedPersonId = await showDialog<String>(
-        context: context,
-        builder: (context) {
-          final idsToGrayOut = {widget.person.id, ...tagPersonIds};
-          return PersonSelectDialog(idsToGrayOut);
-        });
-    if (selectedPersonId != null) {
-      final updatedTagPersonIds = {...note.tagPersonIds}..add(selectedPersonId);
-      setState(() {
-        _noteNotifier.value = note.copyWith(tagPersonIds: updatedTagPersonIds);
-      });
-    }
   }
 
   static const Icon _addTagIcon = Icon(CommunityMaterialIcons.pound_box);

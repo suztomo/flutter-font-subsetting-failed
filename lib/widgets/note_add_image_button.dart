@@ -14,7 +14,6 @@ import '../login_user_model.dart';
 import '../note.dart';
 import '../person.dart';
 import '../screen_edit_note.i18n.dart';
-import 'photo_access_dialog.dart';
 
 class NoteAddImageButton extends StatefulWidget {
   const NoteAddImageButton(this.person, {this.onPhotoUploaded});

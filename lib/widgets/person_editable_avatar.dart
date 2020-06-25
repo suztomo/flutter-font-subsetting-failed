@@ -16,7 +16,6 @@ import '../login_user_model.dart';
 import '../person.dart';
 import 'cached_image.dart';
 import 'person_editable_avatar.i18n.dart';
-import 'photo_access_dialog.dart';
 
 class PersonEditableAvatar extends StatefulWidget {
   const PersonEditableAvatar(this.notifier, {this.size = 50});
@@ -41,7 +40,6 @@ class _PersonEditableAvatarState extends State<PersonEditableAvatar> {
     } on PlatformException catch (err) {
       // User did not give permission
       if (err.code == 'photo_access_denied') {
-        await dialogPhotoAccess(context);
         return null;
       }
       return null;

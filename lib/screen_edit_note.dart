@@ -3,7 +3,6 @@ import 'package:hitomemo/note_tags_model.dart';
 import 'package:hitomemo/tag.dart';
 import 'package:provider/provider.dart';
 
-import 'date_raised_button.dart';
 import 'edit_back_button.dart';
 import 'note.dart';
 import 'person.dart';
@@ -260,10 +259,6 @@ class EditNoteState extends State<EditNoteForm> {
             child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  DateButton(
-                    _note.date,
-                    _onDatePressed,
-                  ),
                   TextFormField(
                     key: const Key('form_note'),
                     maxLines: 5,

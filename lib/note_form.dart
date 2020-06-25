@@ -4,7 +4,6 @@ import 'package:hitomemo/login_user_model.dart';
 import 'package:provider/provider.dart';
 import 'package:tuple/tuple.dart';
 
-import 'date_raised_button.dart';
 import 'note.dart';
 import 'note_form.i18n.dart';
 import 'note_tags_model.dart';
@@ -213,11 +212,6 @@ class NoteFormState extends State<NoteForm> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    DateButton(
-                      _noteDate,
-                      _onDatePressed,
-                      buttonKey: _dateButtonKey,
-                    ),
                     Focus(
                       onFocusChange: (focusGained) {
                         if (focusGained) {
