@@ -42,27 +42,32 @@ void main() {
 class HitomemoApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      child: MaterialApp(
-          localizationsDelegates: [
-            // ... app-specific localization delegate[s] here
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+    return
+      GestureDetector(
+        child: MaterialApp(
+            localizationsDelegates: [
+              // ... app-specific localization delegate[s] here
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: const [
+              Locale('en'), // English
+              Locale('ja'), // Japanese
+            ],
 
-          // This does not seem helping. Instead, this app uses InfoPList.
-          // strings file to internationalize app name on home screen.
-          // https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html
-          onGenerateTitle: (context) => appNameEn.i18n,
-          theme: ThemeData.light(),
-          home: I18n(child: HitomemoInitialPage()),
-          routes: {}),
-      behavior: HitTestBehavior.opaque,
-      onTap: () {
-        FocusManager.instance.primaryFocus.unfocus();
-      },
-    );
+            // This does not seem helping. Instead, this app uses InfoPList.
+            // strings file to internationalize app name on home screen.
+            // https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/AboutInformationPropertyListFiles.html
+            onGenerateTitle: (context) => appNameEn.i18n,
+            theme: ThemeData.light(),
+            home: I18n(child: HitomemoInitialPage()),
+            routes: {}),
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          FocusManager.instance.primaryFocus.unfocus();
+        },
+      );
   }
 }
 
@@ -71,6 +76,21 @@ class HitomemoInitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Text('hi'));
+    // Initialize providers
+    Provider.of<TagsModel>(context, listen: false);
+    Provider.of<PersonsModel>(context, listen: false);
+    Provider.of<NoteTagRepository>(context, listen: false);
+    return Consumer<LoginUserModel>(builder: (context, loginUserModel, child) {
+      switch (loginUserModel.status) {
+        case LoginStatus.loggedIn:
+          return HitomemoHomePage();
+        case LoginStatus.unknown:
+          return LoadingPage();
+        case LoginStatus.notLoggedIn:
+          return HitomemoSlideOnboarding();
+        default:
+          throw Exception('Unexpected login status ${loginUserModel.status}');
+      }
+    });
   }
 }
