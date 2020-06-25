@@ -12,7 +12,6 @@ import 'package:http/http.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:pedantic/pedantic.dart';
 
-import 'onboarding/screen_sign_in.i18n.dart';
 import 'person.dart';
 
 // To clear login status on Hitomemo, visit Google Account settings
@@ -140,7 +139,7 @@ class LoginUserModel extends ChangeNotifier {
     await personsModel.setLoginUserModel(this);
 
     // Sets ID. Very likely '0'.
-    var userAsPerson = Person(name: displayName ?? 'Your name'.i18n);
+    var userAsPerson = Person(name: displayName ?? 'Your name');
     userAsPerson = await personsModel.addPerson(userAsPerson);
 
     if (user.photoUrl == null || !user.photoUrl.contains('.')) {

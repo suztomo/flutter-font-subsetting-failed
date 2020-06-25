@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hitomemo/screen_note_tags.dart';
 import 'package:hitomemo/widgets/tutorial.dart';
 import 'package:provider/provider.dart';
 
@@ -24,9 +23,7 @@ class NotifyingMenuButton extends StatelessWidget {
 
     void onTagsTutorial(TagsTutorialState state) {
       if (state.recentTagIds.isEmpty) {
-        if (routeName != NoteTagPage.routeName) {
-          showDot = true;
-        }
+        showDot = true;
       } else {
         // state.recentTagIds.isNotEmpty
         if (state.noteUsedTagIds.isEmpty) {

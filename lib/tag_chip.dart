@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'person.dart';
-import 'screen_show_group_persons.dart';
-import 'screen_show_tag_notes.dart';
 import 'tag.dart';
 import 'widgets/person_circle_avatar.dart';
 
@@ -20,16 +18,7 @@ class GroupChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final onSelected = this.onSelected ??
-        (_) async {
-          await Navigator.push<void>(
-            context,
-            MaterialPageRoute(
-                settings:
-                    const RouteSettings(name: ShowGroupPersonsRoute.routeName),
-                builder: (context) => ShowGroupPersonsRoute(_tag)),
-          );
-        };
+    final onSelected = this.onSelected;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 2),
@@ -132,16 +121,7 @@ class _NoteTagChipState extends State<NoteTagChip> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final onSelected = widget.onSelected ??
-        (_) async {
-          await Navigator.push<void>(
-            context,
-            MaterialPageRoute(
-                settings:
-                    const RouteSettings(name: ShowGroupPersonsRoute.routeName),
-                builder: (context) => ShowTagNotesRoute(widget._tag)),
-          );
-        };
+    final onSelected = widget.onSelected;
 
     final textTheme =
         theme.textTheme.bodyText1.copyWith(fontSize: widget.small ? 10 : 14);

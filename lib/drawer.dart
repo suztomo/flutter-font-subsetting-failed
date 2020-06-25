@@ -1,13 +1,10 @@
-import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:hitomemo/hitomemo.dart';
-import 'package:hitomemo/screen_note_tags.dart';
 import 'package:provider/provider.dart';
 
 import 'drawer.i18n.dart';
 import 'person.dart';
 import 'person_model.dart';
-import 'screen_groups.dart';
 import 'screen_show_person.dart';
 import 'widgets/person_circle_avatar.dart';
 import 'widgets/tutorial.dart';
@@ -116,20 +113,6 @@ class MenuDrawer extends StatelessWidget {
                     context, HitomemoHomePage.routeName);
               },
             ),
-            ListTile(
-              leading: const Icon(Icons.group),
-              title: Text('Groups'.i18n),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, GroupPage.routeName);
-              },
-            ),
-            ListTile(
-                leading: const Icon(CommunityMaterialIcons.pound_box),
-                title: textWithDot('Tags'.i18n, showDot: showDotOnTag),
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                      context, NoteTagPage.routeName);
-                }),
           ],
         ),
       ),
