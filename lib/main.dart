@@ -32,14 +32,10 @@ class HitomemoInitialPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize providers
-    Provider.of<TagsModel>(context, listen: false);
-    Provider.of<PersonsModel>(context, listen: false);
-    Provider.of<NoteTagRepository>(context, listen: false);
     return Consumer<LoginUserModel>(builder: (context, loginUserModel, child) {
       switch (loginUserModel.status) {
-        case LoginStatus.loggedIn:
-          return HitomemoHomePage();
+//        case LoginStatus.loggedIn:
+  //        return HitomemoHomePage();
         case LoginStatus.unknown:
           return LoadingPage();
         case LoginStatus.notLoggedIn:
