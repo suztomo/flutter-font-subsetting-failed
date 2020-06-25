@@ -55,7 +55,6 @@ class HitomemoApp extends StatelessWidget {
               Locale('en'), // English
               Locale('ja'), // Japanese
             ],
-            builder: DevicePreview.appBuilder,
 
             // This does not seem helping. Instead, this app uses InfoPList.
             // strings file to internationalize app name on home screen.
