@@ -13,16 +13,7 @@ class HitomemoApp extends StatelessWidget {
     return
       GestureDetector(
         child: MaterialApp(
-            home: I18n(child: HitomemoInitialPage())),
+            home: I18n(child: EditNoteTagSection(null))),
       );
-  }
-}
-
-class HitomemoInitialPage extends StatelessWidget {
-  static const String routeName = '/init';
-
-  @override
-  Widget build(BuildContext context) {
-    return EditNoteTagSection(null);
   }
 }
