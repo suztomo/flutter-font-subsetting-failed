@@ -1,7 +1,9 @@
-# Step to Reproduce
+# Step to Reproduce "FontSubset error"
 
 ```
-/tmp/font-subset-error/hello $ flutter build ios                                            git[branch:master]
+$ cd ios 
+$ pod install 
+$ flutter build ios                                            git[branch:master]
 Building suzotmo.hello for device (ios-release)...
 Automatically signing iOS for device deployment using specified development team in Xcode project: M3QX44L9Y2
 Running Xcode build...                                                  
@@ -28,6 +30,9 @@ Xcode's output:
 ```
 
 # Flutter doctor
+
+I use Flutter beta channel.
+
 ```
 /tmp/font-subset-error/hello $ flutter doctor                                               git[branch:master]
 Doctor summary (to see all details, run flutter doctor -v):
