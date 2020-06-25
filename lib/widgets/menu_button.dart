@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:hitomemo/widgets/tutorial.dart';
 import 'package:provider/provider.dart';
 
-import '../hitomemo.dart';
-
 class NotifyingMenuButton extends StatelessWidget {
   const NotifyingMenuButton(this.routeName);
 
@@ -25,12 +23,7 @@ class NotifyingMenuButton extends StatelessWidget {
       if (state.recentTagIds.isEmpty) {
         showDot = true;
       } else {
-        // state.recentTagIds.isNotEmpty
-        if (state.noteUsedTagIds.isEmpty) {
-          if (routeName != HitomemoHomePage.routeName) {
-            showDot = true;
-          }
-        }
+        showDot = true;
       }
     }
 
