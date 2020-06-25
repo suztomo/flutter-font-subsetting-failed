@@ -44,6 +44,10 @@ class HitomemoApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       child: MaterialApp(
+          supportedLocales: const [
+            Locale('en'), // English
+            Locale('ja'), // Japanese
+          ],
 
           // This does not seem helping. Instead, this app uses InfoPList.
           // strings file to internationalize app name on home screen.
