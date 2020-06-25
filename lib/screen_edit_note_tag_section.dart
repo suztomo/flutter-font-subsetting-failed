@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 
 import 'note.dart';
 import 'person.dart';
-import 'tag.dart';
 import 'tag_chip.dart';
 
 class EditNoteTagSection extends StatefulWidget {
@@ -45,8 +44,6 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
     });
   }
 
-  Container noTagChip() => Container();
-
   static const Icon _addPersonIcon = Icon(Icons.person_add);
   Container noPersonChip() => Container(
           child: ChoiceChip(
@@ -54,6 +51,24 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
         label: Text('Tag person'),
         selected: false,
       ));
+
+  Widget _selectedNoteTags(BuildContext context) {
+    final tagChips = []
+        .where((tag) => _noteNotifier.value.tagIds.contains(tag.id))
+        .map((tag) {
+      return Container(
+          child: NoteTagChip(
+        tag,
+        onSelected: (selected) {
+          _tagEditTapped();
+        },
+        selected: true,
+      ));
+    }).toList();
+
+    return Wrap(
+        spacing: 10, alignment: WrapAlignment.center, children: tagChips);
+  }
 
   Widget _selectedPersonTags(BuildContext context) {
     final note = _noteNotifier.value;
@@ -78,9 +93,6 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
     if (tagChips.isEmpty) {
       tagChips.add(noPersonChip());
     } else {
-      tagChips.add(Container(
-        child: IconButton(icon: _addPersonIcon, ),
-      ));
     }
 
     return Expanded(
@@ -102,7 +114,7 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
               spacing: 10,
               alignment: WrapAlignment.center,
               children: [
-                noTagChip(),
+                noPersonChip(),
               ],
             ),
           ],
@@ -114,12 +126,16 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[],
+        children: <Widget>[
+          _selectedNoteTags(context),
+        ],
       ),
       Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[],
+        children: <Widget>[
+          _selectedPersonTags(context),
+        ],
       )
     ]);
   }
@@ -140,6 +156,8 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
 
   TextEditingController _textEditingController;
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -150,6 +168,58 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
   void dispose() {
     _textEditingController.dispose();
     super.dispose();
+  }
+
+  List<Widget> tagChoiceChipList(ValueNotifier<Set<String>> tagNotifier) {
+    final tags = tagNotifier.value;
+    return [].map((tag) {
+      return Container(
+        padding: const EdgeInsets.all(2),
+        child: NoteTagChip(
+          tag,
+          selectable: true,
+          selected: tags.contains(tag.id),
+          onSelected: (selected) async {
+            final updatedTags = {...tags}; // copy
+            if (selected) {
+              updatedTags.add(tag.id);
+            } else {
+              updatedTags.remove(tag.id);
+            }
+            tagNotifier.value = updatedTags;
+          },
+        ),
+      );
+    }).toList();
+  }
+
+  Future<void> onCreatePressed() async {
+    if (!_formKey.currentState.validate()) {
+      return;
+    }
+
+    final scaffold = Scaffold.of(widget.scaffoldContext)
+      ..showSnackBar(SnackBar(content: Text('Saving the tag')));
+
+    final tagName = _textEditingController.text;
+
+    _textEditingController.clear();
+    setState(() {
+      addingNewTag = false;
+    });
+
+  }
+
+  String validateNewTagName(String newTagName) {
+    final tagNames = [].map((t) => t.name).toSet();
+    if (newTagName.length <= 1) {
+      return 'Tag name too short';
+    }
+    if (tagNames.contains(newTagName)) {
+      // If _tag is null, it's a new tag
+      return 'Duplicate tag name';
+    }
+    return null;
   }
 
   @override
@@ -184,10 +254,44 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
           )
         ],
       ),
-      content: Column(
-        children: [
-          Icon(CommunityMaterialIcons.ab_testing)
-        ],
+      content: SingleChildScrollView(
+        child: Consumer<ValueNotifier<Set<String>>>(
+            builder: (_, notifier, __) => Column(
+                  children: [
+                    addingNewTag
+                        ? Padding(
+                            padding: const EdgeInsets.only(bottom: 8),
+                            child: Form(
+                              key: _formKey,
+                              child: Row(children: [
+                                Expanded(
+                                  child: TextFormField(
+                                    controller: _textEditingController,
+                                    validator: validateNewTagName,
+                                    decoration: InputDecoration(
+                                      icon: const Icon(
+                                          CommunityMaterialIcons.pound_box),
+                                      labelText: 'New Tag',
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 60,
+                                  child: RaisedButton(
+                                    visualDensity: VisualDensity.compact,
+                                    child: Text('Create'),
+                                    onPressed: onCreatePressed,
+                                  ),
+                                )
+                              ]),
+                            ),
+                          )
+                        : Container(),
+                    Wrap(
+                      children: tagChoiceChipList(notifier),
+                    ),
+                  ],
+                )),
       ),
       actions: [
         MaterialButton(
