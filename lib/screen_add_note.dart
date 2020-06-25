@@ -5,7 +5,6 @@ import 'package:hitomemo/tag_chip.dart';
 import 'package:provider/provider.dart';
 
 import 'note.dart';
-import 'note_form.dart';
 import 'person.dart';
 import 'person_model.dart';
 import 'screen_edit_note.i18n.dart';
@@ -53,7 +52,7 @@ class AddNoteRouteState extends State<AddNoteRoute> {
                       builder: (context, person, _) => Column(children: [
                             const SizedBox(height: 8),
                             const _PersonSelectionForm(),
-                            person != null ? NoteForm(person) : Container()
+                        Container()
                           ])),
                 ),
               ))),
