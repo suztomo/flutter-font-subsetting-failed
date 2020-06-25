@@ -14,29 +14,23 @@ class EditNoteTagSection extends StatefulWidget {
 
 class _EditNoteTagSectionState extends State<EditNoteTagSection> {
   _EditNoteTagSectionState();
-  ValueNotifier<Note> _noteNotifier;
 
   @override
   void initState() {
     super.initState();
-    _noteNotifier = Provider.of<ValueNotifier<Note>>(context, listen: false);
   }
 
   Future<void> _tagEditTapped() async {
-    final tags = _noteNotifier.value.tagIds;
+    final tags = Note().tagIds;
     final notifier = ValueNotifier<Set<String>>(tags);
     await showDialog<void>(
         context: context,
         builder: (_) {
           return ChangeNotifierProvider<ValueNotifier<Set<String>>>.value(
             value: notifier,
-            child: _TagSelectionDialog(context),
+            child: TagSelectionDialog(context),
           );
         });
-    setState(() {
-      _noteNotifier.value =
-          _noteNotifier.value.copyWith(tagIds: notifier.value);
-    });
   }
 
   static const Icon _addPersonIcon = Icon(Icons.person_add);
@@ -49,7 +43,6 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
 
   Widget _selectedNoteTags(BuildContext context) {
     final tagChips = []
-        .where((tag) => _noteNotifier.value.tagIds.contains(tag.id))
         .map((tag) {
       return Container(
           child: NoteTagChip(
@@ -65,8 +58,7 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
   }
 
   Widget _selectedPersonTags(BuildContext context) {
-    final note = _noteNotifier.value;
-    final selectedPersonTagIds = note.tagPersonIds;
+    final note = Note();
     final tagChips = []
         .map((person) {
       return Container();
@@ -85,7 +77,7 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
 
   @override
   Widget build(BuildContext context) {
-    final note = _noteNotifier.value;
+    final note = Note();
     if (note.tagIds.isEmpty && note.tagPersonIds.isEmpty) {
       return Center(
         child: Row(
@@ -123,8 +115,8 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
   }
 }
 
-class _TagSelectionDialog extends StatefulWidget {
-  const _TagSelectionDialog(this.scaffoldContext);
+class TagSelectionDialog extends StatefulWidget {
+  const TagSelectionDialog(this.scaffoldContext);
   final BuildContext scaffoldContext;
 
   @override
@@ -133,7 +125,7 @@ class _TagSelectionDialog extends StatefulWidget {
   }
 }
 
-class _TagSelectionState extends State<_TagSelectionDialog> {
+class _TagSelectionState extends State<TagSelectionDialog> {
   bool addingNewTag = false;
 
   TextEditingController _textEditingController;
