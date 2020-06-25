@@ -13,7 +13,6 @@ import 'person_model.dart';
 import 'screen_edit_note_image_section.dart';
 import 'screen_edit_note_tag_section.dart';
 import 'tag.dart';
-import 'widgets/tutorial.dart';
 
 class NoteForm extends StatefulWidget {
   const NoteForm(this._person);
@@ -81,16 +80,7 @@ class NoteFormState extends State<NoteForm> {
     final hint = selectedTuple.item1.i18n;
     final hintFromInventory = '$n ($eg $hint)';
 
-    final tutorialNotifier =
-        Provider.of<ValueNotifier<TutorialState>>(context, listen: false);
-    return tutorialNotifier.value.maybeWhen(
-        onTagsTutorial: (state) {
-          if (state.recentTagIds.isNotEmpty && state.noteUsedTagIds.isEmpty) {
-            return hintTextReceivedGift.i18n.fill([_person.name]);
-          }
-          return hintFromInventory;
-        },
-        orElse: () => hintFromInventory);
+    return null;
   }
 
   // Create a global key that uniquely identifies the Form widget
@@ -182,10 +172,6 @@ class NoteFormState extends State<NoteForm> {
 
           // Hide keyboard
           FocusManager.instance.primaryFocus.unfocus();
-
-          for (final tagId in note.tagIds) {
-            Tutorial.recordAddingTagToNote(context, tagId);
-          }
         } on ProviderNotFoundException catch (_) {
           // When this form is on screen_add_note
           Navigator.pop(context);
@@ -244,22 +230,19 @@ class NoteFormState extends State<NoteForm> {
                           );
                         }
                       },
-                      child: WithTutorialDot(
-                        tutorialKeyNoteInputTextField,
-                        child: TextFormField(
-                          enabled: _enableEdit,
-                          maxLines: 3,
-                          controller: _memoController,
-                          decoration: InputDecoration(hintText: hintText),
-                          // The validator receives the text that the user
-                          // has entered.
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Empty note'.i18n;
-                            }
-                            return null;
-                          },
-                        ),
+                      child: TextFormField(
+                        enabled: _enableEdit,
+                        maxLines: 3,
+                        controller: _memoController,
+                        decoration: InputDecoration(hintText: hintText),
+                        // The validator receives the text that the user
+                        // has entered.
+                        validator: (value) {
+                          if (value.isEmpty) {
+                            return 'Empty note'.i18n;
+                          }
+                          return null;
+                        },
                       ),
                     ),
 
@@ -281,16 +264,15 @@ class NoteFormState extends State<NoteForm> {
                       Expanded(child: Container()),
                       toolsFolded
                           ? (_enableSubmit
-                              ? WithTutorialDot(tutorialKeyNoteAdditionalButton,
-                                  child: IconButton(
-                                      icon: Icon(Icons.add_circle),
-                                      onPressed: () {
-                                        setState(() {
-                                          toolsFolded = !toolsFolded;
-                                        });
-                                        FocusManager.instance.primaryFocus
-                                            .unfocus();
-                                      }))
+                              ? IconButton(
+                                  icon: Icon(Icons.add_circle),
+                                  onPressed: () {
+                                    setState(() {
+                                      toolsFolded = !toolsFolded;
+                                    });
+                                    FocusManager.instance.primaryFocus
+                                        .unfocus();
+                                  })
                               : IconButton(
                                   icon: Icon(Icons.add_circle),
                                   onPressed: null))

@@ -1,9 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hitomemo/widgets/tutorial.dart';
-import 'package:provider/provider.dart';
 
 class NotifyingMenuButton extends StatelessWidget {
   const NotifyingMenuButton(this.routeName);
@@ -12,22 +8,7 @@ class NotifyingMenuButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tutorialNotifier =
-        Provider.of<ValueNotifier<TutorialState>>(context, listen: true);
-
-    final state = tutorialNotifier.value;
-
     var showDot = false;
-
-    void onTagsTutorial(TagsTutorialState state) {
-      if (state.recentTagIds.isEmpty) {
-        showDot = true;
-      } else {
-        showDot = true;
-      }
-    }
-
-    state.maybeWhen(onTagsTutorial: onTagsTutorial, orElse: () => Void);
 
     return Stack(
       children: [

@@ -1,6 +1,5 @@
 import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:hitomemo/widgets/tutorial.dart';
 import 'package:provider/provider.dart';
 
 import 'note.dart';
@@ -72,18 +71,7 @@ class _EditNoteTagSectionState extends State<EditNoteTagSection> {
   }
 
   static const Icon _addTagIcon = Icon(CommunityMaterialIcons.pound_box);
-  Container noTagChip() => Container(
-          child: WithTutorialDot(
-        tutorialKeyNoteNoTagButton,
-        child: ChoiceChip(
-          avatar: _addTagIcon,
-          label: Text('Tag'.i18n),
-          onSelected: (selected) {
-            _tagEditTapped();
-          },
-          selected: false,
-        ),
-      ));
+  Container noTagChip() => Container();
 
   static const Icon _addPersonIcon = Icon(Icons.person_add);
   Container noPersonChip() => Container(
@@ -230,24 +218,21 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
   List<Widget> tagChoiceChipList(ValueNotifier<Set<String>> tagNotifier) {
     final tags = tagNotifier.value;
     return tagsModel.tags.map((tag) {
-      return WithTutorialDot(
-        tag.id,
-        child: Container(
-          padding: const EdgeInsets.all(2),
-          child: NoteTagChip(
-            tag,
-            selectable: true,
-            selected: tags.contains(tag.id),
-            onSelected: (selected) async {
-              final updatedTags = {...tags}; // copy
-              if (selected) {
-                updatedTags.add(tag.id);
-              } else {
-                updatedTags.remove(tag.id);
-              }
-              tagNotifier.value = updatedTags;
-            },
-          ),
+      return Container(
+        padding: const EdgeInsets.all(2),
+        child: NoteTagChip(
+          tag,
+          selectable: true,
+          selected: tags.contains(tag.id),
+          onSelected: (selected) async {
+            final updatedTags = {...tags}; // copy
+            if (selected) {
+              updatedTags.add(tag.id);
+            } else {
+              updatedTags.remove(tag.id);
+            }
+            tagNotifier.value = updatedTags;
+          },
         ),
       );
     }).toList();
@@ -280,7 +265,6 @@ class _TagSelectionState extends State<_TagSelectionDialog> {
       ..hideCurrentSnackBar()
       ..showSnackBar(SnackBar(content: Text('Saved %s'.i18n.fill([tag.name]))));
 
-    Tutorial.recordAddingRecentlySavedTag(context, tag.id);
   }
 
   String validateNewTagName(String newTagName) {

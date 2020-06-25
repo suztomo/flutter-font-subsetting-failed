@@ -12,7 +12,6 @@ import 'screen_edit_note.i18n.dart';
 import 'screen_edit_note_image_section.dart';
 import 'screen_edit_note_tag_section.dart';
 import 'widgets/person_circle_avatar.dart';
-import 'widgets/tutorial.dart';
 
 class EditNoteRoute extends StatelessWidget {
   EditNoteRoute(this._person, this._noteNotifier, this._closeContainerCallback)
@@ -58,7 +57,7 @@ class EditNoteRoute extends StatelessWidget {
         // This widget cannot touch the note list value notifier in
         // screen_show_person.
         for (final tagId in note.tagIds) {
-          Tutorial.recordAddingTagToNote(context, tagId);
+          // Tutorial.recordAddingTagToNote(context, tagId);
         }
         _closeContainerCallback(note);
       }

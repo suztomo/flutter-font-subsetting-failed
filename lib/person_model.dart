@@ -16,7 +16,6 @@ import 'login_user_model.dart';
 import 'note.dart';
 import 'note_tags_model.dart';
 import 'person_model_romaji.dart';
-import 'search_engine.dart';
 
 /// Maintains person information including notes.
 // https://console.firebase.google.com/u/0/project/suztomo-hitomemo/database
@@ -41,17 +40,8 @@ class PersonsModel extends ChangeNotifier {
 
   FirebaseUser get loginUser => _firebaseUser;
 
-  SearchEngine _searchEngine;
-
   // familyId to set of persons
   final Map<String, Set<String>> _families = {};
-
-  Future<SearchEngine> get searchEngine async {
-    if (_searchEngine == null || _searchEngine.userId != _firebaseUser.uid) {
-      return _searchEngine = await SearchEngine.create(_firebaseUser.uid);
-    }
-    return _searchEngine;
-  }
 
   final Map<String, Person> _persons = {};
 
@@ -282,9 +272,6 @@ class PersonsModel extends ChangeNotifier {
           name: 'add_person',
           parameters: <String, dynamic>{'count': _persons.length}));
 
-      final searchEngine = await this.searchEngine;
-      await searchEngine.updatePersonTimestamp(person);
-
       notifyListeners();
       return person;
     } on Exception catch (err) {
@@ -462,7 +449,6 @@ class PersonsModel extends ChangeNotifier {
           name: 'add_note_to_person',
           parameters: <String, dynamic>{'count': person.notes.length}));
 
-      await (await searchEngine)?.indexNote(person, _note);
 
       notifyListeners();
 
@@ -498,8 +484,6 @@ class PersonsModel extends ChangeNotifier {
     final person = _person.copyWith(updated: currentTime);
     updatePersonList(person);
 
-    final searchEngine = await this.searchEngine;
-    await searchEngine.indexNote(person, newNote);
 
     notifyListeners();
     return person;
@@ -546,8 +530,6 @@ class PersonsModel extends ChangeNotifier {
 
     final person = _person.copyWith(updated: currentTime);
     updatePersonList(person);
-    await (await searchEngine)?.indexNote(person, note);
-
     notifyListeners();
     return person;
   }
@@ -574,8 +556,6 @@ class PersonsModel extends ChangeNotifier {
     final person = _person.copyWith(updated: currentTime);
     updatePersonList(person);
 
-    final searchEngine = await this.searchEngine;
-    await searchEngine.updatePersonTimestamp(person);
 
     notifyListeners();
     return person;
