@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:hitomemo/screen_about_app.dart';
 import 'package:i18n_extension/i18n_widget.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:provider/provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../login_user_model.dart';
 import '../screen_help.dart';
 import 'screen_onboarding.dart';
@@ -81,13 +79,6 @@ class SignInPageState extends State<SignInPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    GestureDetector(
-                      child: Text(
-                        'Privacy Policy'.i18n,
-                        style: Theme.of(context).textTheme.caption,
-                      ),
-                      onTap: () => launch(AboutAppPage.privacyPolicyUrl),
-                    ),
                     const SizedBox(width: 16),
                     const FeedbackButton.text()
                   ],

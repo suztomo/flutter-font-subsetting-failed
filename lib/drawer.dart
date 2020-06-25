@@ -5,13 +5,9 @@ import 'package:hitomemo/screen_note_tags.dart';
 import 'package:provider/provider.dart';
 
 import 'drawer.i18n.dart';
-import 'name.dart';
 import 'person.dart';
 import 'person_model.dart';
-import 'screen_about_app.dart';
-import 'screen_account.dart';
 import 'screen_groups.dart';
-import 'screen_help.dart';
 import 'screen_show_person.dart';
 import 'widgets/person_circle_avatar.dart';
 import 'widgets/tutorial.dart';
@@ -50,14 +46,6 @@ class MenuDrawer extends StatelessWidget {
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.account_box),
-                title: Text('Account'.i18n),
-                onTap: () {
-                  Navigator.pushReplacementNamed(
-                      context, AccountPage.routeName);
-                },
-              )
             ],
           ),
         ),
@@ -142,27 +130,6 @@ class MenuDrawer extends StatelessWidget {
                   Navigator.pushReplacementNamed(
                       context, NoteTagPage.routeName);
                 }),
-            ListTile(
-              leading: const Icon(Icons.account_box),
-              title: Text('Account'.i18n),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, AccountPage.routeName);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.help),
-              title: Text('Help'.i18n),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, HelpPage.routeName);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.info),
-              title: Text('About $appNameEn'.i18n),
-              onTap: () {
-                Navigator.pushReplacementNamed(context, AboutAppPage.routeName);
-              },
-            ),
           ],
         ),
       ),
