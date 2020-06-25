@@ -1,7 +1,5 @@
+import 'package:community_material_icon/community_material_icon.dart';
 import 'package:flutter/material.dart';
-import 'package:i18n_extension/i18n_widget.dart';
-
-import 'screen_edit_note_tag_section.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,10 +8,14 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return
-      GestureDetector(
-        child: MaterialApp(
-            home: I18n(child: TagSelectionDialog())),
-      );
+    return GestureDetector(
+      child: MaterialApp(
+          home: TextFormField(
+        decoration: InputDecoration(
+          icon: const Icon(CommunityMaterialIcons.pound_box),
+          labelText: 'hello',
+        ),
+      )),
+    );
   }
 }
